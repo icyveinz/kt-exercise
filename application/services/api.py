@@ -2,7 +2,13 @@ import os
 
 import aiohttp
 from sqlalchemy.ext.asyncio import AsyncSession
-from core.schemas import BasicResponse, AddUserBody, CheckImeiBody, CheckImeiResponse, AdditionalInfo
+from core.schemas import (
+    BasicResponse,
+    AddUserBody,
+    CheckImeiBody,
+    CheckImeiResponse,
+    AdditionalInfo,
+)
 from repositories.api import ApiRepository
 
 
@@ -16,28 +22,32 @@ class ApiService:
                 headers = {
                     "Authorization": f"Bearer {os.getenv('THENEO_TOKEN')}",
                     "Accept-Language": "en",
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
                 }
-                data = {
-                    "deviceId": f"{application.imei}",
-                    "serviceId": 22
-                }
+                data = {"deviceId": f"{application.imei}", "serviceId": 22}
                 async with aiohttp.ClientSession() as session:
-                    async with session.post(url, headers=headers, json=data) as response:
+                    async with session.post(
+                        url, headers=headers, json=data
+                    ) as response:
                         response.raise_for_status()  # Проверка на ошибки HTTP
                         result = await response.json()
                         properties = result.get("properties", {})
                         additional_info = AdditionalInfo(**properties)
                         return CheckImeiResponse(
-                            is_succeeded=True,
-                            additional_info=additional_info
+                            is_succeeded=True, additional_info=additional_info
                         )
             else:
-                return CheckImeiResponse(is_succeeded=False, additional_info="Invalid access token")
+                return CheckImeiResponse(
+                    is_succeeded=False, additional_info="Invalid access token"
+                )
         except aiohttp.ClientError as e:
-            return CheckImeiResponse(is_succeeded=False, additional_info={"error": str(e)})
+            return CheckImeiResponse(
+                is_succeeded=False, additional_info={"error": str(e)}
+            )
         except Exception as e:
-            return CheckImeiResponse(is_succeeded=False, additional_info={"error": str(e)})
+            return CheckImeiResponse(
+                is_succeeded=False, additional_info={"error": str(e)}
+            )
 
     @staticmethod
     async def add_user(db: AsyncSession, application: AddUserBody) -> BasicResponse:

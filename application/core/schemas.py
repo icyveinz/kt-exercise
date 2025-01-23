@@ -16,6 +16,7 @@ def luhn_check(imei: str) -> bool:
         total += digit
     return total % 10 == 0
 
+
 class AdditionalInfo(BaseModel):
     deviceName: Optional[str] = None
     image: Optional[str] = None
@@ -29,11 +30,14 @@ class AdditionalInfo(BaseModel):
     demoUnit: Optional[bool] = None
     refurbished: Optional[bool] = None
     purchaseCountry: Optional[str] = None
-    apple_region: Optional[str] = Field(None, alias="apple/region")  # Используем псевдоним для поля с "/"
+    apple_region: Optional[str] = Field(
+        None, alias="apple/region"
+    )  # Используем псевдоним для поля с "/"
     fmiOn: Optional[bool] = None
     lostMode: Optional[str] = None
     usaBlockStatus: Optional[str] = None
     network: Optional[str] = None
+
     class Config:
         extra = "allow"
 
