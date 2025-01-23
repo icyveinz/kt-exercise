@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
-
 from core.database import SessionLocal
 from core.schemas import CheckImeiResponse, BasicResponse, CheckImeiBody, AddUserBody
+from services.api import check_user
 
 router = APIRouter(prefix="/api", tags=["api"])
 
@@ -31,6 +31,6 @@ async def create(application: AddUserBody, db: AsyncSession = Depends(get_db)):
 @router.get("/check-user", response_model=BasicResponse)
 async def create(telegram_id: int, db: AsyncSession = Depends(get_db)):
     try:
-        return await create_application(application, db)
+        return await check_user(db, telegram_id)
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
