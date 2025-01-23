@@ -13,15 +13,15 @@ async def get_db():
 
 
 @router.post("/check-imei", response_model=CheckImeiResponse)
-async def create(application: CheckImeiBody, db: AsyncSession = Depends(get_db)):
+async def check_imei_route(application: CheckImeiBody):
     try:
-        return await create_application(application, db)
+        return await ApiService.check_imei(application)
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
 
 @router.post("/add-user", response_model=BasicResponse)
-async def create(application: AddUserBody, db: AsyncSession = Depends(get_db)):
+async def add_user_route(application: AddUserBody, db: AsyncSession = Depends(get_db)):
     try:
         return await ApiService.add_user(db, application)
     except Exception as e:
@@ -29,7 +29,7 @@ async def create(application: AddUserBody, db: AsyncSession = Depends(get_db)):
 
 
 @router.get("/check-user", response_model=BasicResponse)
-async def create(telegram_id: int, db: AsyncSession = Depends(get_db)):
+async def check_user_route(telegram_id: int, db: AsyncSession = Depends(get_db)):
     try:
         return await ApiService.check_user(db, telegram_id)
     except Exception as e:
