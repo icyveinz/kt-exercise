@@ -6,6 +6,7 @@ from core.schemas import CheckImeiResponse, BasicResponse, CheckImeiBody, AddUse
 
 router = APIRouter(prefix="/api", tags=["api"])
 
+
 async def get_db():
     async with SessionLocal() as session:
         yield session
@@ -17,6 +18,7 @@ async def create(application: CheckImeiBody, db: AsyncSession = Depends(get_db))
         return await create_application(application, db)
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
+
 
 @router.post("/add-user", response_model=BasicResponse)
 async def create(application: AddUserBody, db: AsyncSession = Depends(get_db)):
