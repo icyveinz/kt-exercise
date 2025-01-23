@@ -16,7 +16,7 @@ class ApiService:
         try:
             ACCESS_TOKEN = os.getenv("ACCESS_TOKEN")
             if ACCESS_TOKEN == application.token:
-                client = ImeiCheckClient(api_key=os.getenv('THENEO_TOKEN'))
+                client = ImeiCheckClient(api_key=os.getenv("THENEO_TOKEN"))
                 result = await client.check_imei(imei=application.imei)
                 return result
             else:

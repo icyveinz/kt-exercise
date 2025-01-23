@@ -11,15 +11,14 @@ class ImeiCheckClient:
         headers = {
             "Authorization": f"Bearer {self.api_key}",
             "Accept-Language": "en",
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
         }
-        data = {
-            "deviceId": imei,
-            "serviceId": 22
-        }
+        data = {"deviceId": imei, "serviceId": 22}
         try:
             async with aiohttp.ClientSession() as session:
-                async with session.post(self.base_url, headers=headers, json=data) as response:
+                async with session.post(
+                    self.base_url, headers=headers, json=data
+                ) as response:
                     response.raise_for_status()
                     result = await response.json()
                     properties = result.get("properties", {})
