@@ -9,13 +9,16 @@ from core.schemas import (
 )
 from repositories.api import ApiRepository
 
+def validate_token(token: str) -> bool:
+    ACCESS_TOKEN = os.getenv("ACCESS_TOKEN")
+    return ACCESS_TOKEN == token
+
 
 class ApiService:
     @staticmethod
     async def check_imei(application: CheckImeiBody) -> CheckImeiResponse:
         try:
-            ACCESS_TOKEN = os.getenv("ACCESS_TOKEN")
-            if ACCESS_TOKEN == application.token:
+            if validate_token(application.token):
                 client = ImeiCheckClient(api_key=os.getenv("THENEO_TOKEN"))
                 result = await client.check_imei(imei=application.imei)
                 return result
@@ -31,8 +34,7 @@ class ApiService:
     @staticmethod
     async def add_user(db: AsyncSession, application: AddUserBody) -> BasicResponse:
         try:
-            ACCESS_TOKEN = os.getenv("ACCESS_TOKEN")
-            if ACCESS_TOKEN == application.token:
+            if validate_token(application.token):
                 response = await ApiRepository.insert_user(db, application)
                 return response
             else:
