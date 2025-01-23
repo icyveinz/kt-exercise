@@ -1,3 +1,5 @@
 application/.idea
 application/venv
+tg_bot/.idea
+tg_bot/venv
 postgres_data/
