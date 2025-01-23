@@ -1,7 +1,7 @@
 from sqlalchemy.future import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from core.models import Application
-from core.schemas import BasicResponse
+from core.schemas import BasicResponse, AddUserBody
 
 
 class ApiRepository:
@@ -17,5 +17,16 @@ class ApiRepository:
                 return BasicResponse(
                     is_succeeded=False, additional_info="User does not exist"
                 )
+        except Exception as e:
+            return BasicResponse(is_succeeded=False, additional_info=str(e))
+
+    @staticmethod
+    async def insert_user(db: AsyncSession, application: AddUserBody) -> BasicResponse:
+        try:
+            new_user = Application(telegram_id=application.telegram_id)
+            db.add(new_user)
+            await db.commit()
+            await db.refresh(new_user)
+            return BasicResponse(is_succeeded=True, additional_info=f"User with id={application.telegram_id} is added to the db")
         except Exception as e:
             return BasicResponse(is_succeeded=False, additional_info=str(e))
