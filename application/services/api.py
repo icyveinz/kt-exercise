@@ -9,6 +9,7 @@ from core.schemas import (
 )
 from repositories.api import ApiRepository
 
+
 def validate_token(token: str) -> bool:
     ACCESS_TOKEN = os.getenv("ACCESS_TOKEN")
     return ACCESS_TOKEN == token
