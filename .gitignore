@@ -1,0 +1,3 @@
+application/.idea
+application/venv
+postgres_data/

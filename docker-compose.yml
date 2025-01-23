@@ -1,0 +1,40 @@
+version: "3.4"
+services:
+  nginx:
+    build: ./nginx
+    container_name: nginx
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    networks:
+      - combined-network
+
+  db:
+    image: postgres:15
+    container_name: db
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: applications_db
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+    networks:
+      - combined-network
+
+  application:
+    build: ./application
+    container_name: application
+    depends_on:
+      - db
+    networks:
+      - combined-network
+
+  tg_bot:
+    build: ./tg_bot
+    container_name: tg_bot
+    networks:
+      - combined-network
+
+networks:
+  combined-network:
+    driver: bridge
