@@ -1,13 +1,11 @@
 import os
-
-import aiohttp
 from sqlalchemy.ext.asyncio import AsyncSession
+from clients.api import ImeiCheckClient
 from core.schemas import (
     BasicResponse,
     AddUserBody,
     CheckImeiBody,
     CheckImeiResponse,
-    AdditionalInfo,
 )
 from repositories.api import ApiRepository
 
@@ -18,32 +16,13 @@ class ApiService:
         try:
             ACCESS_TOKEN = os.getenv("ACCESS_TOKEN")
             if ACCESS_TOKEN == application.token:
-                url = "https://api.imeicheck.net/v1/checks"
-                headers = {
-                    "Authorization": f"Bearer {os.getenv('THENEO_TOKEN')}",
-                    "Accept-Language": "en",
-                    "Content-Type": "application/json",
-                }
-                data = {"deviceId": f"{application.imei}", "serviceId": 22}
-                async with aiohttp.ClientSession() as session:
-                    async with session.post(
-                        url, headers=headers, json=data
-                    ) as response:
-                        response.raise_for_status()  # Проверка на ошибки HTTP
-                        result = await response.json()
-                        properties = result.get("properties", {})
-                        additional_info = AdditionalInfo(**properties)
-                        return CheckImeiResponse(
-                            is_succeeded=True, additional_info=additional_info
-                        )
+                client = ImeiCheckClient(api_key=os.getenv('THENEO_TOKEN'))
+                result = await client.check_imei(imei=application.imei)
+                return result
             else:
                 return CheckImeiResponse(
                     is_succeeded=False, additional_info="Invalid access token"
                 )
-        except aiohttp.ClientError as e:
-            return CheckImeiResponse(
-                is_succeeded=False, additional_info={"error": str(e)}
-            )
         except Exception as e:
             return CheckImeiResponse(
                 is_succeeded=False, additional_info={"error": str(e)}
