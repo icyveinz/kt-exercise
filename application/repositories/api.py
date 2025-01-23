@@ -27,6 +27,9 @@ class ApiRepository:
             db.add(new_user)
             await db.commit()
             await db.refresh(new_user)
-            return BasicResponse(is_succeeded=True, additional_info=f"User with id={application.telegram_id} is added to the db")
+            return BasicResponse(
+                is_succeeded=True,
+                additional_info=f"User with id={application.telegram_id} is added to the db",
+            )
         except Exception as e:
             return BasicResponse(is_succeeded=False, additional_info=str(e))
