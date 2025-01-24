@@ -53,6 +53,7 @@ class BasicResponse(BaseModel):
 
 class CheckImeiBody(BaseModel):
     imei: str
+
     @field_validator("imei")
     def validate_imei(cls, v):
         if not v.isdigit() or len(v) != 15:

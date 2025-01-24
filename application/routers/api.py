@@ -15,7 +15,10 @@ async def get_db():
 
 
 @router.post("/check-imei", response_model=CheckImeiResponse)
-async def check_imei_route(application: CheckImeiBody, credentials: HTTPAuthorizationCredentials = Depends(get_current_user)):
+async def check_imei_route(
+    application: CheckImeiBody,
+    credentials: HTTPAuthorizationCredentials = Depends(get_current_user),
+):
     try:
         return await ApiService.check_imei(application)
     except Exception as e:
@@ -23,7 +26,11 @@ async def check_imei_route(application: CheckImeiBody, credentials: HTTPAuthoriz
 
 
 @router.post("/add-user", response_model=BasicResponse)
-async def add_user_route(application: AddUserBody, db: AsyncSession = Depends(get_db), credentials: HTTPAuthorizationCredentials = Depends(get_current_user)):
+async def add_user_route(
+    application: AddUserBody,
+    db: AsyncSession = Depends(get_db),
+    credentials: HTTPAuthorizationCredentials = Depends(get_current_user),
+):
     try:
         return await ApiService.add_user(db, application)
     except Exception as e:
