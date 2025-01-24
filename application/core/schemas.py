@@ -43,7 +43,7 @@ class AdditionalInfo(BaseModel):
 
 class CheckImeiResponse(BaseModel):
     is_succeeded: bool
-    additional_info: Optional[AdditionalInfo] = None | str
+    additional_info: Optional[AdditionalInfo] = None
 
 
 class BasicResponse(BaseModel):
@@ -53,8 +53,6 @@ class BasicResponse(BaseModel):
 
 class CheckImeiBody(BaseModel):
     imei: str
-    token: str
-
     @field_validator("imei")
     def validate_imei(cls, v):
         if not v.isdigit() or len(v) != 15:
@@ -66,4 +64,3 @@ class CheckImeiBody(BaseModel):
 
 class AddUserBody(BaseModel):
     telegram_id: int
-    token: str

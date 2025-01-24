@@ -10,38 +10,23 @@ from core.schemas import (
 from repositories.api import ApiRepository
 
 
-def validate_token(token: str) -> bool:
-    ACCESS_TOKEN = os.getenv("ACCESS_TOKEN")
-    return ACCESS_TOKEN == token
-
-
 class ApiService:
     @staticmethod
     async def check_imei(application: CheckImeiBody) -> CheckImeiResponse:
         try:
-            if validate_token(application.token):
-                client = ImeiCheckClient(api_key=os.getenv("THENEO_TOKEN"))
-                result = await client.check_imei(imei=application.imei)
-                return result
-            else:
-                return CheckImeiResponse(
-                    is_succeeded=False, additional_info="Invalid access token"
-                )
+            client = ImeiCheckClient(api_key=os.getenv("THENEO_TOKEN"))
+            result = await client.check_imei(imei=application.imei)
+            return result
         except Exception as e:
             return CheckImeiResponse(
-                is_succeeded=False, additional_info={"error": str(e)}
+                is_succeeded=False, additional_info=None
             )
 
     @staticmethod
     async def add_user(db: AsyncSession, application: AddUserBody) -> BasicResponse:
         try:
-            if validate_token(application.token):
-                response = await ApiRepository.insert_user(db, application)
-                return response
-            else:
-                return BasicResponse(
-                    is_succeeded=False, additional_info="Your token doesn't match."
-                )
+            response = await ApiRepository.insert_user(db, application)
+            return response
         except Exception as e:
             return BasicResponse(is_succeeded=False, additional_info=str(e))
 
