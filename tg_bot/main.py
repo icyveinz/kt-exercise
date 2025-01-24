@@ -7,10 +7,12 @@ from dotenv import load_dotenv
 from filters.isAdmin import IsAdmin
 from filters.isNumeric import IsNumeric
 
+
 def clean_and_format_additional_info(additional_info: dict) -> str:
     filtered_info = {k: v for k, v in additional_info.items() if v is not None}
     formatted_info = "\n".join([f"{k}: {v}" for k, v in filtered_info.items()])
     return formatted_info
+
 
 load_dotenv(".env")
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
@@ -42,9 +44,7 @@ async def check_imei(message: Message):
         "Authorization": f"Bearer {TOKEN}",
         "Content-Type": "application/json",
     }
-    body = {
-        "imei": extracted_imei
-    }
+    body = {"imei": extracted_imei}
     url = "http://application:8001/api/check-imei"
 
     try:
