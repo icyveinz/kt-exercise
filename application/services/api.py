@@ -18,7 +18,7 @@ class ApiService:
             result = await client.check_imei(imei=application.imei)
             return result
         except Exception as e:
-            return CheckImeiResponse(is_succeeded=False, additional_info=None)
+            return CheckImeiResponse(is_succeeded=False, additional_info=str(e), result=None)
 
     @staticmethod
     async def add_user(db: AsyncSession, application: AddUserBody) -> BasicResponse:
