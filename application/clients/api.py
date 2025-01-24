@@ -24,13 +24,13 @@ class ImeiCheckClient:
                     properties = result.get("properties", {})
                     additional_info = AdditionalInfo(**properties)
                     return CheckImeiResponse(
-                        is_succeeded=True, additional_info=additional_info
+                        is_succeeded=True, additional_info="", result=additional_info
                     )
         except aiohttp.ClientError as e:
             return CheckImeiResponse(
-                is_succeeded=False, additional_info={"error": str(e)}
+                is_succeeded=False, additional_info=str(e), result=None
             )
         except Exception as e:
             return CheckImeiResponse(
-                is_succeeded=False, additional_info={"error": str(e)}
+                is_succeeded=False, additional_info=str(e), result=None
             )

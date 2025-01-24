@@ -43,7 +43,8 @@ class AdditionalInfo(BaseModel):
 
 class CheckImeiResponse(BaseModel):
     is_succeeded: bool
-    additional_info: Optional[AdditionalInfo] = None
+    additional_info: str
+    result: Optional[AdditionalInfo] = None
 
 
 class BasicResponse(BaseModel):
