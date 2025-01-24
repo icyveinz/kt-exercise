@@ -52,8 +52,8 @@ async def add_user_route(
 @router.get(
     "/check-user",
     response_model=BasicResponse,
-    summary="Проверить пользователя",
-    description="Проверить пользователя по ID telegram и принять решение может ли он делать запросы к боту или нет",
+    summary="Проверить пользователя (Изолированная)",
+    description="Проверить пользователя по ID telegram и принять решение может ли он делать запросы к боту или нет. Изолированна и обрабатывает запросы приходящие от других контейнеров в сборке",
     tags=["Users"],
 )
 async def check_user_route(telegram_id: int, db: AsyncSession = Depends(get_db)):
