@@ -19,11 +19,11 @@ async def starting_info(message: Message):
         text="Этот бот поможет получить информацию о IMEI.\nВведите в поле интересующий вас IMEI (последовательность из 15 цифр)"
     )
 
+
 @dp.message(CommandStart() and not IsAdmin())
 async def starting_info(message: Message):
-    await message.answer(
-        text="У вас нет доступа к данному боту"
-    )
+    await message.answer(text="У вас нет доступа к данному боту")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     dp.run_polling(bot)
