@@ -21,4 +21,5 @@ class ImeiService:
 
     @staticmethod
     async def get_imei_info(message: Message):
-        await ImeiClient.make_request_imei_data(message)
+        response = await ImeiClient.make_request_imei_data(message)
+        await message.answer(text=response)
