@@ -7,6 +7,7 @@ from services.imei import ImeiService
 
 imei_router = Router()
 
+
 @imei_router.message(CommandStart(), IsAdmin())
 async def starting_info(message: Message):
     await ImeiService.start_greetings(message)

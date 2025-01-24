@@ -8,9 +8,10 @@ def clean_and_format_additional_info(additional_info: dict) -> str:
     formatted_info = "\n".join([f"{k}: {v}" for k, v in filtered_info.items()])
     return formatted_info
 
+
 class ImeiClient:
     @staticmethod
-    async def make_request_imei_data(message : Message):
+    async def make_request_imei_data(message: Message):
         url = "http://application:8001/api/check-imei"
         headers = {
             "Authorization": f"Bearer {TOKEN}",
