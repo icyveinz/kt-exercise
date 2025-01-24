@@ -14,12 +14,13 @@ async def get_db():
         yield session
 
 
-@router.post("/check-imei",
-             response_model=CheckImeiResponse,
-             summary="Проверить IMEI",
-             description="Проверить IMEI и получить информацию по устройству в ответе на запрос.",
-             tags=["IMEI"]
-             )
+@router.post(
+    "/check-imei",
+    response_model=CheckImeiResponse,
+    summary="Проверить IMEI",
+    description="Проверить IMEI и получить информацию по устройству в ответе на запрос.",
+    tags=["IMEI"],
+)
 async def check_imei_route(
     application: CheckImeiBody,
     _: HTTPAuthorizationCredentials = Depends(get_current_user),
@@ -30,12 +31,13 @@ async def check_imei_route(
         raise HTTPException(status_code=400, detail=str(e))
 
 
-@router.post("/add-user",
-             response_model=BasicResponse,
-             summary="Добавить пользователя",
-             description="Добавить пользователя по ID telegram чтобы он смог делать запросы в бот.",
-             tags=["Users"]
-             )
+@router.post(
+    "/add-user",
+    response_model=BasicResponse,
+    summary="Добавить пользователя",
+    description="Добавить пользователя по ID telegram чтобы он смог делать запросы в бот.",
+    tags=["Users"],
+)
 async def add_user_route(
     application: AddUserBody,
     db: AsyncSession = Depends(get_db),
@@ -47,12 +49,13 @@ async def add_user_route(
         raise HTTPException(status_code=400, detail=str(e))
 
 
-@router.get("/check-user",
-            response_model=BasicResponse,
-            summary="Проверить пользователя",
-            description="Проверить пользователя по ID telegram и принять решение может ли он делать запросы к боту или нет",
-            tags=["Users"]
-            )
+@router.get(
+    "/check-user",
+    response_model=BasicResponse,
+    summary="Проверить пользователя",
+    description="Проверить пользователя по ID telegram и принять решение может ли он делать запросы к боту или нет",
+    tags=["Users"],
+)
 async def check_user_route(telegram_id: int, db: AsyncSession = Depends(get_db)):
     try:
         return await ApiService.check_user(db, telegram_id)
