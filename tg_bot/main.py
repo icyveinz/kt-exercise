@@ -61,9 +61,12 @@ async def check_imei(message: Message):
         print(f"An error occurred: {e}")
         return message.reply(text=str(e))
 
+
 @dp.message(IsAdmin(), ~IsNumeric())
 async def check_imei(message: Message):
-    await message.answer(text="Проверьте номер, который вы отправили. Он должен состоять из 15 цифр и не должен содержать других символов")
+    await message.answer(
+        text="Проверьте номер, который вы отправили. Он должен состоять из 15 цифр и не должен содержать других символов"
+    )
 
 
 if __name__ == "__main__":
