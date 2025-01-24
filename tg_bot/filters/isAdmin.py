@@ -3,10 +3,12 @@ from aiogram.types import Message
 from pydantic import BaseModel
 import aiohttp
 
+
 # Модель для ответа API
 class BasicResponse(BaseModel):
     is_succeeded: bool
     additional_info: str
+
 
 # Фильтр для проверки, является ли пользователь администратором
 class IsAdmin(BaseFilter):

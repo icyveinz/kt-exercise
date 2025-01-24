@@ -12,10 +12,16 @@ TOKEN = os.getenv("TOKEN")
 bot = Bot(token=TOKEN)
 dp = Dispatcher()
 
+
 @dp.message(CommandStart() and IsAdmin())
 async def starting_info(message: Message):
-    await message.answer(text="Этот бот поможет получить информацию о IMEI.\nВведите в поле интересующий вас IMEI (последовательность из 15 цифр)")
+    await message.answer(
+        text="Этот бот поможет получить информацию о IMEI.\nВведите в поле интересующий вас IMEI (последовательность из 15 цифр)"
+    )
+
 
 @dp.message(CommandStart() and not IsAdmin())
 async def starting_info(message: Message):
-    await message.answer(text="Этот бот поможет получить информацию о IMEI.\nВведите в поле интересующий вас IMEI (последовательность из 15 цифр)")
+    await message.answer(
+        text="Этот бот поможет получить информацию о IMEI.\nВведите в поле интересующий вас IMEI (последовательность из 15 цифр)"
+    )
