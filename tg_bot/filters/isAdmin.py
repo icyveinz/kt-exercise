@@ -3,6 +3,7 @@ from aiogram.types import Message
 from pydantic import BaseModel
 import aiohttp
 
+
 class BasicResponse(BaseModel):
     is_succeeded: bool
     additional_info: str
