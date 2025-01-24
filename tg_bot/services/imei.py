@@ -1,6 +1,5 @@
 from aiogram.types import Message
 from clients.imei import ImeiClient
-from main import TOKEN
 
 
 class ImeiService:
@@ -22,10 +21,4 @@ class ImeiService:
 
     @staticmethod
     async def get_imei_info(message: Message):
-        extracted_imei = message.text
-        headers = {
-            "Authorization": f"Bearer {TOKEN}",
-            "Content-Type": "application/json",
-        }
-        body = {"imei": extracted_imei}
-        return await ImeiClient.make_request_imei_data(message, headers, body)
+        await ImeiClient.make_request_imei_data(message)
