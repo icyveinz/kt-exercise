@@ -6,7 +6,7 @@ from core.database import SessionLocal
 from core.schemas import CheckImeiResponse, BasicResponse, CheckImeiBody, AddUserBody
 from services.api import ApiService
 
-router = APIRouter(prefix="/api", tags=["api"])
+router = APIRouter(prefix="/api")
 
 
 async def get_db():
