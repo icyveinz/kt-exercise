@@ -9,4 +9,4 @@ check:
 	ruff check . --fix
 test:
 	cls
-	pytest -s
+	pytest -v

@@ -32,5 +32,8 @@ class ApiService:
 
     @staticmethod
     async def check_user(db: AsyncSession, telegram_id: int) -> BasicResponse:
-        response = await ApiRepository.check(db, telegram_id)
-        return response
+        try:
+            response = await ApiRepository.check(db, telegram_id)
+            return response
+        except Exception as e:
+            return BasicResponse(is_succeeded=False, additional_info=str(e))
