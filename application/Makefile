@@ -7,3 +7,6 @@ generate:
 	pip freeze > requirements.txt
 check:
 	ruff check . --fix
+test:
+	cls
+	pytest -s
