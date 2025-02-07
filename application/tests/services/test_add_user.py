@@ -7,11 +7,13 @@ from services.api import ApiService
 
 
 @pytest.mark.asyncio
-@patch.object(ApiRepository, 'insert_user', new_callable=AsyncMock)
+@patch.object(ApiRepository, "insert_user", new_callable=AsyncMock)
 async def test_add_user_success(mock_insert_user):
     # Prepare mock data
     application = AddUserBody(telegram_id=12345)
-    mock_response = BasicResponse(is_succeeded=True, additional_info="User with id=12345 is added to the db")
+    mock_response = BasicResponse(
+        is_succeeded=True, additional_info="User with id=12345 is added to the db"
+    )
     mock_insert_user.return_value = mock_response
 
     # Mock the database session
@@ -26,7 +28,7 @@ async def test_add_user_success(mock_insert_user):
 
 
 @pytest.mark.asyncio
-@patch.object(ApiRepository, 'insert_user', new_callable=AsyncMock)
+@patch.object(ApiRepository, "insert_user", new_callable=AsyncMock)
 async def test_add_user_failure(mock_insert_user):
     # Prepare mock data
     application = AddUserBody(telegram_id=12345)
@@ -45,7 +47,7 @@ async def test_add_user_failure(mock_insert_user):
 
 
 @pytest.mark.asyncio
-@patch.object(ApiRepository, 'insert_user', new_callable=AsyncMock)
+@patch.object(ApiRepository, "insert_user", new_callable=AsyncMock)
 async def test_add_user_exception(mock_insert_user):
     # Prepare mock data
     application = AddUserBody(telegram_id=12345)
